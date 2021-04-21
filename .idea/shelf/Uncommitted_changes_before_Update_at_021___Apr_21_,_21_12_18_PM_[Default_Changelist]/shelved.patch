@@ -1,0 +1,23 @@
+Index: app/src/main/java/com/example/groupproject/MainActivity.java
+===================================================================
+--- app/src/main/java/com/example/groupproject/MainActivity.java	(revision f46a26e0b889aa3c0b552f72bf13963ae3a5fc27)
++++ app/src/main/java/com/example/groupproject/MainActivity.java	(revision f46a26e0b889aa3c0b552f72bf13963ae3a5fc27)
+@@ -1,17 +0,0 @@
+-package com.example.groupproject;
+-
+-import android.os.Bundle;
+-
+-import androidx.appcompat.app.AppCompatActivity;
+-
+-public class MainActivity extends AppCompatActivity {
+-
+-    @Override
+-    protected void onCreate(Bundle savedInstanceState) {
+-        super.onCreate(savedInstanceState);
+-        setContentView(R.layout.activity_main);
+-    }
+-    //Daniel's first commit
+-
+-    // Taran first commit
+-}
+\ No newline at end of file
