@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
                 ApiControl appC = new ApiControl();
                 appC.searchQuotes(getApplicationContext(), "CA", "CAD", "en-US", "SFO-sky", "JFK-sky", "anytime", "anytime");
                 //Do something with the data here
-
             }
         });
 
@@ -73,6 +72,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        mAuth.signOut();
+        mAuth.signOut();
     }
 }
