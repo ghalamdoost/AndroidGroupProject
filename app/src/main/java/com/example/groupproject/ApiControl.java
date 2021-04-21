@@ -25,16 +25,16 @@ public class ApiControl {
     public ApiControl() {
     }
 
-    public void searchQuotes(Context cont, String country, String currency, String locale, String originPlace, String destinationPlace, String inboundDate, String outboundDate) {
-        RequestQueue queue = Volley.newRequestQueue(cont);
-        String url = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/" + country + "/" + currency + "/" + locale + "/" + originPlace + "/" + destinationPlace + "/" + outboundDate + "?inboundpartialdate=" + inboundDate;
+        public void searchQuotes(Context cont, String country, String currency, String locale, String originPlace, String destinationPlace, String inboundDate, String outboundDate) {
+            RequestQueue queue = Volley.newRequestQueue(cont);
+            String url = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/" + country + "/" + currency + "/" + locale + "/" + originPlace + "/" + destinationPlace + "/" + outboundDate + "?inboundpartialdate=" + inboundDate;
 
-        JsonObjectRequest myRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONArray quotes = response.getJSONArray("Quotes");
-                    System.out.println("\n\nQuotes: " + quotes);
+            JsonObjectRequest myRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        JSONArray quotes = response.getJSONArray("Quotes");
+                        System.out.println("\n\nQuotes: " + quotes);
 
                     JSONArray carriers = response.getJSONArray("Carriers");
                     System.out.println("\n\nCarriers: " + carriers);
