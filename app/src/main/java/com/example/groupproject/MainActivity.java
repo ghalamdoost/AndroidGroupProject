@@ -35,10 +35,9 @@ public class MainActivity extends AppCompatActivity {
         btnSearch = findViewById(R.id.btnSearch);
 
 
-        FlightInfo f1 = new FlightInfo("1", "118", "true", "851", "81727", "60987", "2021-05-14T00:00:00", "2021-04-17T20:51:00");
-        FlightInfo f2 = new FlightInfo("1", "118", "true", "851", "81727", "60987", "2021-05-14T00:00:00", "2021-04-17T20:51:00");
-        FlightInfo f3 = new FlightInfo("1", "118", "true", "851", "81727", "60987", "2021-05-14T00:00:00", "2021-04-17T20:51:00");
-
+        FlightInfo f1 = new FlightInfo(1, 118, true, "851", 81727, 60987, "2021-05-14T00:00:00", "2021-04-17T20:51:00");
+        FlightInfo f2 = new FlightInfo(1, 118, true, "851", 81727, 60987, "2021-05-14T00:00:00", "2021-04-17T20:51:00");
+        FlightInfo f3 = new FlightInfo(1, 118, true, "851", 81727, 60987, "2021-05-14T00:00:00", "2021-04-17T20:51:00");
         flightList.add(f1);
         flightList.add(f2);
         flightList.add(f3);

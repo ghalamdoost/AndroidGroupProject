@@ -1,21 +1,20 @@
 package com.example.groupproject;
 
 public class FlightInfo {
-    String QuoteId;
-    String MinPrice;
-    String Direct;
-    String CarrierIds;
-    String OriginId;
-    String DestinationId;
+    Integer QuoteId;
+    Integer MinPrice;
+    Boolean Direct;
+    String Carrier;
+    Integer OriginId;
+    Integer DestinationId;
     String DepartureDate;
     String QuoteDateTime;
 
-
-    public FlightInfo(String quoteId, String minPrice, String direct, String carrierIds, String originId, String destinationId, String departureDate, String quoteDateTime) {
+    public FlightInfo(Integer quoteId, Integer minPrice, Boolean direct, String carrier, Integer originId, Integer destinationId, String departureDate, String quoteDateTime) {
         QuoteId = quoteId;
         MinPrice = minPrice;
         Direct = direct;
-        CarrierIds = carrierIds;
+        Carrier = carrier;
         OriginId = originId;
         DestinationId = destinationId;
         DepartureDate = departureDate;
@@ -25,51 +24,51 @@ public class FlightInfo {
     public FlightInfo() {
     }
 
-    public String getQuoteId() {
+    public Integer getQuoteId() {
         return QuoteId;
     }
 
-    public void setQuoteId(String quoteId) {
+    public void setQuoteId(Integer quoteId) {
         QuoteId = quoteId;
     }
 
-    public String getMinPrice() {
+    public Integer getMinPrice() {
         return MinPrice;
     }
 
-    public void setMinPrice(String minPrice) {
+    public void setMinPrice(Integer minPrice) {
         MinPrice = minPrice;
     }
 
-    public String getDirect() {
+    public Boolean getDirect() {
         return Direct;
     }
 
-    public void setDirect(String direct) {
+    public void setDirect(Boolean direct) {
         Direct = direct;
     }
 
-    public String getCarrierIds() {
-        return CarrierIds;
+    public String getCarrier() {
+        return Carrier;
     }
 
-    public void setCarrierIds(String carrierIds) {
-        CarrierIds = carrierIds;
+    public void setCarrier(String carrier) {
+        Carrier = carrier;
     }
 
-    public String getOriginId() {
+    public Integer getOriginId() {
         return OriginId;
     }
 
-    public void setOriginId(String originId) {
+    public void setOriginId(Integer originId) {
         OriginId = originId;
     }
 
-    public String getDestinationId() {
+    public Integer getDestinationId() {
         return DestinationId;
     }
 
-    public void setDestinationId(String destinationId) {
+    public void setDestinationId(Integer destinationId) {
         DestinationId = destinationId;
     }
 

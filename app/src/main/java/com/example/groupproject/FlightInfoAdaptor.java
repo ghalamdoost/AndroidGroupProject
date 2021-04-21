@@ -65,6 +65,7 @@ public class FlightInfoAdaptor extends RecyclerView.Adapter<FlightInfoAdaptor.My
             txtPrice = itemView.findViewById(R.id.txtPrice);
             txtAirline = itemView.findViewById(R.id.textAirline);
             submit = itemView.findViewById(R.id.submit);
+
         }
     }
 }
