@@ -37,13 +37,47 @@ public class ApiControl {
                     System.out.println("\n\nQuotes: " + quotes);
 
                     JSONArray carriers = response.getJSONArray("Carriers");
-                    System.out.println("\n\nQuotes: " + carriers);
+                    System.out.println("\n\nCarriers: " + carriers);
 
                     JSONArray places = response.getJSONArray("Places");
                     System.out.println("\n\nPlaces: " + places);
 
                     JSONArray currencies = response.getJSONArray("Currencies");
                     System.out.println("\n\nCurrencies: " + currencies);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i("There is an Error on the API call: ", error.getMessage());
+                error.printStackTrace();
+            }
+        }) {    //HEADERS to the request
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<>();
+                params.put("x-rapidapi-key", key);
+                params.put("x-rapidapi-host", host);
+                return params;
+            }
+        };
+        queue.add(myRequest);
+    }
+
+
+    public void getPlaces(Context cont, String query) {
+        RequestQueue queue = Volley.newRequestQueue(cont);
+        String url = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/CA/CAD/en-US/?query=" + query;
+
+        JsonObjectRequest myRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray places = response.getJSONArray("Places");
+                    System.out.println("\n\nPlaces: " + places);
 
                 } catch (Exception e) {
                     e.printStackTrace();

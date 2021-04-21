@@ -31,7 +31,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ApiControl appC = new ApiControl();
                 appC.searchQuotes(getApplicationContext(), "CA", "CAD", "en-US", "SFO-sky", "JFK-sky", "anytime", "anytime");
+                appC.getPlaces(getApplicationContext(), "Toronto");
                 //Do something with the data here
+
 
             }
         });
