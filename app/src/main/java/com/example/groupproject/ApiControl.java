@@ -1,103 +1,61 @@
 package com.example.groupproject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.google.gson.Gson;
 
 public class ApiControl {
-
-    private String key = "513627f9c7msh65fc903e562a5c6p187414jsn3dc8db77788e";
-    private String host = "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com";
 
     //Constructor
     public ApiControl() {
     }
 
-        public void searchQuotes(Context cont, String country, String currency, String locale, String originPlace, String destinationPlace, String inboundDate, String outboundDate) {
-            RequestQueue queue = Volley.newRequestQueue(cont);
-            String url = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/" + country + "/" + currency + "/" + locale + "/" + originPlace + "/" + destinationPlace + "/" + outboundDate + "?inboundpartialdate=" + inboundDate;
-
-            JsonObjectRequest myRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    try {
-                        JSONArray quotes = response.getJSONArray("Quotes");
-                        System.out.println("\n\nQuotes: " + quotes);
-
-                    JSONArray carriers = response.getJSONArray("Carriers");
-                    System.out.println("\n\nCarriers: " + carriers);
-
-                    JSONArray places = response.getJSONArray("Places");
-                    System.out.println("\n\nPlaces: " + places);
-
-                    JSONArray currencies = response.getJSONArray("Currencies");
-                    System.out.println("\n\nCurrencies: " + currencies);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+    public void searchWeather(Context cont, String units, String city, String country) {
+        RequestQueue queue = Volley.newRequestQueue(cont);
+        String url = "http://shbnodejs.herokuapp.com/api/weathers/" + units + "/" + city + "/" + country;
+        JsonObjectRequest myRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+            try {
+                Weather wea = new Gson().fromJson(response.toString(), Weather.class);
+                //Intent to DetailPage
+                Intent i = new Intent(cont, DetailPage.class);
+                i.putExtra("wea", wea);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                cont.startActivity(i);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i("There is an Error on the API call: ", error.getMessage());
-                error.printStackTrace();
-            }
-        }) {    //HEADERS to the request
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> params = new HashMap<>();
-                params.put("x-rapidapi-key", key);
-                params.put("x-rapidapi-host", host);
-                return params;
-            }
-        };
+        }, error -> {
+            Log.i("There is an Error on the API call: ", error.getMessage());
+            error.printStackTrace();
+        });
         queue.add(myRequest);
     }
 
-
-    public void getPlaces(Context cont, String query) {
+    public void getLastSearches(Context cont) {
         RequestQueue queue = Volley.newRequestQueue(cont);
-        String url = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/CA/CAD/en-US/?query=" + query;
-
-        JsonObjectRequest myRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONArray places = response.getJSONArray("Places");
-                    System.out.println("\n\nPlaces: " + places);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        String url = "http://shbnodejs.herokuapp.com/api/cities/searched";
+        JsonArrayRequest myRequest = new JsonArrayRequest(Request.Method.GET, url, null, response -> {
+            try {
+                WeatherSearches[] ws = new Gson().fromJson(response.toString(), WeatherSearches[].class);
+                //Intent to DetailPage
+                Intent i = new Intent(cont, LastCities.class);
+                i.putExtra("ws", ws);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                cont.startActivity(i);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i("There is an Error on the API call: ", error.getMessage());
-                error.printStackTrace();
-            }
-        }) {    //HEADERS to the request
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> params = new HashMap<>();
-                params.put("x-rapidapi-key", key);
-                params.put("x-rapidapi-host", host);
-                return params;
-            }
-        };
+        }, error -> {
+            Log.i("There is an Error on the API call: ", error.getMessage());
+            error.printStackTrace();
+        });
         queue.add(myRequest);
     }
 }
