@@ -14,6 +14,8 @@ public class LastCities extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_last_cities);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         txtLastCities = findViewById(R.id.txtLastCities);
 
         WeatherSearches[] wea = (WeatherSearches[]) getIntent().getSerializableExtra("ws");

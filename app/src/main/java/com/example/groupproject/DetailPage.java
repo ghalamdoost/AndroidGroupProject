@@ -20,6 +20,8 @@ public class DetailPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_page);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         txtTemp = findViewById(R.id.txtTemp);
         txtCityName = findViewById(R.id.txtCityName);
         imgIcon = findViewById(R.id.imgIcon);

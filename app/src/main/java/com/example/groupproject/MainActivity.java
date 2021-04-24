@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ApiControl appC = new ApiControl();
                 appC.searchWeather(getApplicationContext(), spUnits.getSelectedItem().toString(), txtNameSearch.getText().toString(), txtCountrySearch.getText().toString());
+                setContentView(R.layout.activity_detail_page);
             }
         });
         btnLastSearches.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ApiControl appC = new ApiControl();
                 appC.getLastSearches(getApplicationContext());
+                setContentView(R.layout.activity_last_cities);
             }
         });
         //End API functionality
@@ -94,6 +96,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mAuth.signOut();
+//        mAuth.signOut();
     }
 }

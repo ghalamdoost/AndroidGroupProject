@@ -12,8 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GroupProject"
         android:usesCleartextTraffic="true">
-        <activity android:name=".LastCities"></activity>
-        <activity android:name=".DetailPage" />
+        <activity
+            android:name=".LastCities"
+            android:parentActivityName=".MainActivity"></activity>
+        <activity
+            android:name=".DetailPage"
+            android:parentActivityName=".MainActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
