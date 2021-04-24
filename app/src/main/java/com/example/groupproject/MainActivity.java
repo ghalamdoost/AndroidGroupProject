@@ -3,64 +3,72 @@ package com.example.groupproject;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     Button btnSearch;
-    private RecyclerView rView;
-    private RecyclerView.Adapter adapter;
-    private ArrayList<FlightInfo> flightList = new ArrayList<>();
-
+    private static final String[] units = {"metric", "imperial"};
+    Button btnLastSearches;
+    EditText txtNameSearch;
+    EditText txtCountrySearch;
+    Spinner spUnits;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         mAuth = FirebaseAuth.getInstance();
+
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment frag = fm.findFragmentById(R.id.fragHolder);
+        if (frag == null) {
+            frag = new SlideShowFragment();
+            fm.beginTransaction().add(R.id.fragHolder, frag).commit();
+        }
+
+        // API functionality
+        txtNameSearch = findViewById(R.id.txtNameSearch);
+        txtCountrySearch = findViewById(R.id.txtCountrySearch);
         btnSearch = findViewById(R.id.btnSearch);
+        btnLastSearches = findViewById(R.id.btnLastSearches);
 
-
-        FlightInfo f1 = new FlightInfo(1, 118, true, "851", 81727, 60987, "2021-05-14T00:00:00", "2021-04-17T20:51:00");
-        FlightInfo f2 = new FlightInfo(1, 118, true, "851", 81727, 60987, "2021-05-14T00:00:00", "2021-04-17T20:51:00");
-        FlightInfo f3 = new FlightInfo(1, 118, true, "851", 81727, 60987, "2021-05-14T00:00:00", "2021-04-17T20:51:00");
-        flightList.add(f1);
-        flightList.add(f2);
-        flightList.add(f3);
-
-        rView = findViewById(R.id.rView);
-
-        rView.setLayoutManager(new LinearLayoutManager(this));
-
-        adapter = new FlightInfoAdaptor(flightList);
-        rView.setAdapter(adapter);
-
+        spUnits = findViewById(R.id.spUnits);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, units);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spUnits.setAdapter(adapter);
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ApiControl appC = new ApiControl();
-                appC.searchQuotes(getApplicationContext(), "CA", "CAD", "en-US", "SFO-sky", "JFK-sky", "anytime", "anytime");
-                //Do something with the data here
-
+                appC.searchWeather(getApplicationContext(), spUnits.getSelectedItem().toString(), txtNameSearch.getText().toString(), txtCountrySearch.getText().toString());
+                setContentView(R.layout.activity_detail_page);
             }
         });
-
-
+        btnLastSearches.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ApiControl appC = new ApiControl();
+                appC.getLastSearches(getApplicationContext());
+                setContentView(R.layout.activity_last_cities);
+            }
+        });
+        //End API functionality
     }
 
     @Override
@@ -88,6 +96,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mAuth.signOut();
+//        mAuth.signOut();
     }
 }
