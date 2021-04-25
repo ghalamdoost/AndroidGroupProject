@@ -1,6 +1,8 @@
 package com.example.groupproject;
 
+
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +15,10 @@ public class DetailPage extends AppCompatActivity {
 
     TextView txtTemp;
     TextView txtCityName;
+    TextView txtFeels;
+    TextView txtVisibility;
+    TextView minTemp;
+    TextView maxTemp;
     ImageView imgIcon;
 
     @Override
@@ -24,6 +30,10 @@ public class DetailPage extends AppCompatActivity {
 
         txtTemp = findViewById(R.id.txtTemp);
         txtCityName = findViewById(R.id.txtCityName);
+        txtFeels = findViewById(R.id.txtFeels);
+        txtVisibility = findViewById(R.id.txtVisibility);
+        minTemp = findViewById(R.id.minTemp);
+        maxTemp = findViewById(R.id.maxTemp);
         imgIcon = findViewById(R.id.imgIcon);
 
         Weather wea = (Weather) getIntent().getSerializableExtra("wea");
@@ -31,7 +41,11 @@ public class DetailPage extends AppCompatActivity {
         String formatUnit = wea.getUnits().equalsIgnoreCase("metric") ? "C" : "F";
         String val = wea.getMain_temp().intValue() + "º" + formatUnit;
         txtTemp.setText(val);
-        txtCityName.setText(wea.getName());
+        txtCityName.setText(wea.getName()+", "+wea.getCountry());
+        txtVisibility.setText("Visibility "+wea.getVisibility());
+        txtFeels.setText("Feels Like "+wea.getMain_feels_like());
+        minTemp.setText("Min Temp: "+wea.getMain_temp_min());
+        maxTemp.setText("Max Temp: "+wea.getMain_temp_max());
 
         Glide.with(this).load("http://openweathermap.org/img/wn/" + wea.getWeather_icon() + "@2x.png").diskCacheStrategy(DiskCacheStrategy.ALL).into(imgIcon);
     }
