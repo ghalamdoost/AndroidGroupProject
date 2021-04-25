@@ -29,7 +29,8 @@ public class DetailPage extends AppCompatActivity {
         Weather wea = (Weather) getIntent().getSerializableExtra("wea");
 
         String formatUnit = wea.getUnits().equalsIgnoreCase("metric") ? "C" : "F";
-        txtTemp.setText(wea.getMain_temp().intValue() + "º" + formatUnit);
+        String val = wea.getMain_temp().intValue() + "º" + formatUnit;
+        txtTemp.setText(val);
         txtCityName.setText(wea.getName());
 
         Glide.with(this).load("http://openweathermap.org/img/wn/" + wea.getWeather_icon() + "@2x.png").diskCacheStrategy(DiskCacheStrategy.ALL).into(imgIcon);

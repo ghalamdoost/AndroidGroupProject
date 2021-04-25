@@ -1,0 +1,62 @@
+Index: app/src/main/java/com/example/groupproject/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.groupproject;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.widget.Button;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.annotation.Nullable;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.fragment.app.Fragment;\r\nimport androidx.fragment.app.FragmentManager;\r\n\r\nimport com.firebase.ui.auth.AuthUI;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\n\r\n//import androidx.recyclerview.widget.LinearLayoutManager;\r\n//import androidx.recyclerview.widget.RecyclerView;\r\n\r\npublic class MainActivity extends AppCompatActivity {\r\n\r\n    private FirebaseAuth mAuth;\r\n    Button btnSearch;\r\n//    private RecyclerView rView;\r\n//    private RecyclerView.Adapter adapter;\r\n//    private ArrayList<FlightInfo> flightList = new ArrayList<>();\r\n\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_main);\r\n\r\n\r\n        mAuth = FirebaseAuth.getInstance();\r\n\r\n        FragmentManager fm = getSupportFragmentManager();\r\n        Fragment frag = fm.findFragmentById(R.id.fragHolder);\r\n        if (frag == null) {\r\n            frag = new SlideShowFragment();\r\n            fm.beginTransaction().add(R.id.fragHolder, frag).commit();\r\n        }\r\n\r\n        btnSearch = findViewById(R.id.btnSearch);\r\n\r\n\r\n//        FlightInfo f1 = new FlightInfo(1, 118, true, \"851\", 81727, 60987, \"2021-05-14T00:00:00\", \"2021-04-17T20:51:00\");\r\n//        FlightInfo f2 = new FlightInfo(1, 118, true, \"851\", 81727, 60987, \"2021-05-14T00:00:00\", \"2021-04-17T20:51:00\");\r\n//        FlightInfo f3 = new FlightInfo(1, 118, true, \"851\", 81727, 60987, \"2021-05-14T00:00:00\", \"2021-04-17T20:51:00\");\r\n//        flightList.add(f1);\r\n//        flightList.add(f2);\r\n//        flightList.add(f3);\r\n//\r\n//        rView = findViewById(R.id.rView);\r\n//\r\n//        rView.setLayoutManager(new LinearLayoutManager(this));\r\n//\r\n//        adapter = new FlightInfoAdaptor(flightList);\r\n//        rView.setAdapter(adapter);\r\n\r\n\r\n        btnSearch.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                ApiControl appC = new ApiControl();\r\n                appC.searchQuotes(getApplicationContext(), \"CA\", \"CAD\", \"en-US\", \"SFO-sky\", \"JFK-sky\", \"anytime\", \"anytime\");\r\n                appC.getPlaces(getApplicationContext(), \"Toronto\");\r\n                //Do something with the data here\r\n\r\n\r\n            }\r\n        });\r\n\r\n\r\n    }\r\n\r\n    @Override\r\n    protected void onStart() {\r\n        super.onStart();\r\n\r\n        if (mAuth.getCurrentUser() == null) {\r\n            startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().build(), 0);\r\n        } else {\r\n            Toast.makeText(this, \"Welcome\" + mAuth.getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();\r\n        }\r\n    }\r\n\r\n    @Override\r\n    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {\r\n        super.onActivityResult(requestCode, resultCode, data);\r\n\r\n        if (requestCode == 0 && resultCode == RESULT_OK) {\r\n            Toast.makeText(this, \"Welcome\" + mAuth.getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();\r\n        } else {\r\n            Toast.makeText(this, \"Login Failure! Please try again.\", Toast.LENGTH_SHORT).show();\r\n        }\r\n    }\r\n\r\n    @Override\r\n    protected void onDestroy() {\r\n        super.onDestroy();\r\n        mAuth.signOut();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/groupproject/MainActivity.java	(revision 39bfaac3017c114d1bf794a9d2464f03399c8274)
++++ app/src/main/java/com/example/groupproject/MainActivity.java	(date 1619035503217)
+@@ -66,7 +66,7 @@
+                 appC.searchQuotes(getApplicationContext(), "CA", "CAD", "en-US", "SFO-sky", "JFK-sky", "anytime", "anytime");
+                 appC.getPlaces(getApplicationContext(), "Toronto");
+                 //Do something with the data here
+-
++                int s=0;
+ 
+             }
+         });
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".MainActivity\">\r\n\r\n    <FrameLayout\r\n        android:id=\"@+id/fragHolder\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginTop=\"10dp\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\">\r\n\r\n    </FrameLayout>\r\n\r\n    <Button\r\n        android:id=\"@+id/btnSearch\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginTop=\"150dp\"\r\n        android:text=\"Button\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/fragHolder\" />\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_main.xml	(revision 39bfaac3017c114d1bf794a9d2464f03399c8274)
++++ app/src/main/res/layout/activity_main.xml	(date 1619035016304)
+@@ -17,15 +17,30 @@
+ 
+     </FrameLayout>
+ 
++    <LinearLayout
++        android:id="@+id/submitLayout"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:orientation="vertical"
++        app:layout_constraintTop_toBottomOf="@+id/fragHolder"
++        tools:layout_editor_absoluteX="30dp">
++
++        <EditText
++            android:id="@+id/editTextTextPersonName"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:ems="10"
++            android:inputType="textPersonName"
++            android:text="Name" />
++    </LinearLayout>
++
+     <Button
+         android:id="@+id/btnSearch"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+-        android:layout_marginTop="150dp"
+         android:text="Button"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@+id/fragHolder" />
++        app:layout_constraintStart_toStartOf="parent" />
+ 
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file

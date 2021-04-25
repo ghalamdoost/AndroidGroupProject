@@ -1,0 +1,303 @@
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    package=\"com.example.groupproject\">\r\n\r\n    <uses-permission android:name=\"android.permission.INTERNET\" />\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:icon=\"@mipmap/ic_launcher\"\r\n        android:label=\"@string/app_name\"\r\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/Theme.GroupProject\"\r\n        android:usesCleartextTraffic=\"true\">\r\n        <activity\r\n            android:name=\".LastCities\"\r\n            android:parentActivityName=\".MainActivity\"></activity>\r\n        <activity\r\n            android:name=\".DetailPage\"\r\n            android:parentActivityName=\".MainActivity\"></activity>\r\n        <activity android:name=\".MainActivity\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n    </application>\r\n\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision cc8abd7879030701f9346a2cec1ad13eadec1aee)
++++ app/src/main/AndroidManifest.xml	(date 1619317653802)
+@@ -6,6 +6,8 @@
+ 
+     <application
+         android:allowBackup="true"
++        android:hardwareAccelerated="false"
++        android:largeHeap="true"
+         android:icon="@mipmap/ic_launcher"
+         android:label="@string/app_name"
+         android:roundIcon="@mipmap/ic_launcher_round"
+Index: app/src/main/java/com/example/groupproject/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.groupproject;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.widget.ArrayAdapter;\r\nimport android.widget.Button;\r\nimport android.widget.EditText;\r\nimport android.widget.Spinner;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.annotation.Nullable;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.fragment.app.Fragment;\r\nimport androidx.fragment.app.FragmentManager;\r\n\r\nimport com.firebase.ui.auth.AuthUI;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\n\r\npublic class MainActivity extends AppCompatActivity {\r\n\r\n    private FirebaseAuth mAuth;\r\n    Button btnSearch;\r\n    private static final String[] units = {\"metric\", \"imperial\"};\r\n    Button btnLastSearches;\r\n    EditText txtNameSearch;\r\n    EditText txtCountrySearch;\r\n    Spinner spUnits;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_main);\r\n\r\n        mAuth = FirebaseAuth.getInstance();\r\n\r\n        FragmentManager fm = getSupportFragmentManager();\r\n        Fragment frag = fm.findFragmentById(R.id.fragHolder);\r\n        if (frag == null) {\r\n            frag = new SlideShowFragment();\r\n            fm.beginTransaction().add(R.id.fragHolder, frag).commit();\r\n        }\r\n\r\n        // API functionality\r\n        txtNameSearch = findViewById(R.id.txtNameSearch);\r\n        txtCountrySearch = findViewById(R.id.txtCountrySearch);\r\n        btnSearch = findViewById(R.id.btnSearch);\r\n        btnLastSearches = findViewById(R.id.btnLastSearches);\r\n\r\n        spUnits = findViewById(R.id.spUnits);\r\n        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, units);\r\n        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);\r\n        spUnits.setAdapter(adapter);\r\n\r\n        btnSearch.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                ApiControl appC = new ApiControl();\r\n                appC.searchWeather(getApplicationContext(), spUnits.getSelectedItem().toString(), txtNameSearch.getText().toString(), txtCountrySearch.getText().toString());\r\n                setContentView(R.layout.activity_detail_page);\r\n            }\r\n        });\r\n        btnLastSearches.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                ApiControl appC = new ApiControl();\r\n                appC.getLastSearches(getApplicationContext());\r\n                setContentView(R.layout.activity_last_cities);\r\n            }\r\n        });\r\n        //End API functionality\r\n    }\r\n\r\n    @Override\r\n    protected void onStart() {\r\n        super.onStart();\r\n\r\n        if (mAuth.getCurrentUser() == null) {\r\n            startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().build(), 0);\r\n        } else {\r\n            Toast.makeText(this, \"Welcome\" + mAuth.getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();\r\n        }\r\n    }\r\n\r\n    @Override\r\n    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {\r\n        super.onActivityResult(requestCode, resultCode, data);\r\n\r\n        if (requestCode == 0 && resultCode == RESULT_OK) {\r\n            Toast.makeText(this, \"Welcome\" + mAuth.getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();\r\n        } else {\r\n            Toast.makeText(this, \"Login Failure! Please try again.\", Toast.LENGTH_SHORT).show();\r\n        }\r\n    }\r\n\r\n    @Override\r\n    protected void onDestroy() {\r\n        super.onDestroy();\r\n//        mAuth.signOut();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/groupproject/MainActivity.java	(revision cc8abd7879030701f9346a2cec1ad13eadec1aee)
++++ app/src/main/java/com/example/groupproject/MainActivity.java	(date 1619321929657)
+@@ -4,6 +4,7 @@
+ import android.os.Bundle;
+ import android.view.View;
+ import android.widget.ArrayAdapter;
++import android.widget.AutoCompleteTextView;
+ import android.widget.Button;
+ import android.widget.EditText;
+ import android.widget.Spinner;
+@@ -16,6 +17,14 @@
+ 
+ import com.firebase.ui.auth.AuthUI;
+ import com.google.firebase.auth.FirebaseAuth;
++import com.google.gson.Gson;
++import com.google.gson.reflect.TypeToken;
++
++import java.io.IOException;
++import java.io.InputStream;
++import java.lang.reflect.Type;
++import java.util.Arrays;
++import java.util.List;
+ 
+ public class MainActivity extends AppCompatActivity {
+ 
+@@ -23,9 +32,8 @@
+     Button btnSearch;
+     private static final String[] units = {"metric", "imperial"};
+     Button btnLastSearches;
+-    EditText txtNameSearch;
+-    EditText txtCountrySearch;
+     Spinner spUnits;
++    AutoCompleteTextView autoTxtNameSearch;
+ 
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+@@ -42,11 +50,24 @@
+         }
+ 
+         // API functionality
+-        txtNameSearch = findViewById(R.id.txtNameSearch);
+-        txtCountrySearch = findViewById(R.id.txtCountrySearch);
+         btnSearch = findViewById(R.id.btnSearch);
+         btnLastSearches = findViewById(R.id.btnLastSearches);
+ 
++
++        String jsonFileString =loadCities();
++        Gson gson = new Gson();
++        Type listCityType = new TypeToken<List<WorldCityList>>() { }.getType();
++        List<WorldCityList> cityList = gson.fromJson(jsonFileString, listCityType);
++        String[] cities = new String[cityList.size()];
++        for (int i = 0; i < cityList.size(); i++) {
++            cities[i]=cityList.get(i).toString();
++            int s=0;
++        }
++
++        ArrayAdapter<String> auutoAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, cities );
++        autoTxtNameSearch = (AutoCompleteTextView) findViewById(R.id.autoTxtNameSearch);
++        autoTxtNameSearch.setAdapter(auutoAdapter);
++
+         spUnits = findViewById(R.id.spUnits);
+         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, units);
+         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+@@ -56,7 +77,8 @@
+             @Override
+             public void onClick(View v) {
+                 ApiControl appC = new ApiControl();
+-                appC.searchWeather(getApplicationContext(), spUnits.getSelectedItem().toString(), txtNameSearch.getText().toString(), txtCountrySearch.getText().toString());
++                String[] split=autoTxtNameSearch.getText().toString().split(",");
++                appC.searchWeather(getApplicationContext(), spUnits.getSelectedItem().toString(), split[0], split[1]);
+                 setContentView(R.layout.activity_detail_page);
+             }
+         });
+@@ -71,6 +93,26 @@
+         //End API functionality
+     }
+ 
++
++    public String loadCities() {
++        String jsonString;
++        try {
++            InputStream is = getAssets().open("cities.json");
++
++            int size = is.available();
++            byte[] buffer = new byte[size];
++            is.read(buffer);
++            is.close();
++
++            jsonString = new String(buffer, "UTF-8");
++        } catch (IOException e) {
++            e.printStackTrace();
++            return null;
++        }
++
++        return jsonString;
++    }
++
+     @Override
+     protected void onStart() {
+         super.onStart();
+Index: app/src/main/java/com/example/groupproject/DetailPage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.groupproject;\r\n\r\nimport android.os.Bundle;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport com.bumptech.glide.Glide;\r\nimport com.bumptech.glide.load.engine.DiskCacheStrategy;\r\n\r\npublic class DetailPage extends AppCompatActivity {\r\n\r\n    TextView txtTemp;\r\n    TextView txtCityName;\r\n    ImageView imgIcon;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_detail_page);\r\n\r\n        getSupportActionBar().setDisplayHomeAsUpEnabled(true);\r\n\r\n        txtTemp = findViewById(R.id.txtTemp);\r\n        txtCityName = findViewById(R.id.txtCityName);\r\n        imgIcon = findViewById(R.id.imgIcon);\r\n\r\n        Weather wea = (Weather) getIntent().getSerializableExtra(\"wea\");\r\n\r\n        String formatUnit = wea.getUnits().equalsIgnoreCase(\"metric\") ? \"C\" : \"F\";\r\n        txtTemp.setText(wea.getMain_temp().intValue() + \"º\" + formatUnit);\r\n        txtCityName.setText(wea.getName());\r\n\r\n        Glide.with(this).load(\"http://openweathermap.org/img/wn/\" + wea.getWeather_icon() + \"@2x.png\").diskCacheStrategy(DiskCacheStrategy.ALL).into(imgIcon);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/groupproject/DetailPage.java	(revision cc8abd7879030701f9346a2cec1ad13eadec1aee)
++++ app/src/main/java/com/example/groupproject/DetailPage.java	(date 1619322405970)
+@@ -29,7 +29,8 @@
+         Weather wea = (Weather) getIntent().getSerializableExtra("wea");
+ 
+         String formatUnit = wea.getUnits().equalsIgnoreCase("metric") ? "C" : "F";
+-        txtTemp.setText(wea.getMain_temp().intValue() + "º" + formatUnit);
++        String val=wea.getMain_temp().intValue() + "º" + formatUnit;
++        txtTemp.setText(val);
+         txtCityName.setText(wea.getName());
+ 
+         Glide.with(this).load("http://openweathermap.org/img/wn/" + wea.getWeather_icon() + "@2x.png").diskCacheStrategy(DiskCacheStrategy.ALL).into(imgIcon);
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".MainActivity\">\r\n\r\n    <FrameLayout\r\n        android:id=\"@+id/fragHolder\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        app:layout_constraintBottom_toTopOf=\"@+id/txtNameSearch\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\">\r\n\r\n    </FrameLayout>\r\n\r\n    <Button\r\n        android:id=\"@+id/btnLastSearches\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"Last Searches\"\r\n        app:layout_constraintBottom_toTopOf=\"@+id/txtNameSearch\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/fragHolder\" />\r\n\r\n    <EditText\r\n        android:id=\"@+id/txtNameSearch\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:ems=\"10\"\r\n        android:hint=\"City Name\"\r\n        android:inputType=\"textPersonName\"\r\n        app:layout_constraintBottom_toTopOf=\"@+id/txtCountrySearch\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/btnLastSearches\" />\r\n\r\n    <Button\r\n        android:id=\"@+id/btnSearch\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"Search\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/spUnits\" />\r\n\r\n    <Spinner\r\n        android:id=\"@+id/spUnits\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        app:layout_constraintBottom_toTopOf=\"@+id/btnSearch\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/txtCountrySearch\" />\r\n\r\n    <EditText\r\n        android:id=\"@+id/txtCountrySearch\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:ems=\"10\"\r\n        android:hint=\"Country\"\r\n        android:inputType=\"textPersonName\"\r\n        app:layout_constraintBottom_toTopOf=\"@+id/spUnits\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/txtNameSearch\" />\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_main.xml	(revision cc8abd7879030701f9346a2cec1ad13eadec1aee)
++++ app/src/main/res/layout/activity_main.xml	(date 1619322029145)
+@@ -1,73 +1,49 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
++    android:orientation="vertical"
+     tools:context=".MainActivity">
+ 
+     <FrameLayout
+         android:id="@+id/fragHolder"
++        android:layout_width="411dp"
++        android:layout_height="200dp"
++        android:layout_marginTop="20dp">
++
++    </FrameLayout>
++
++    <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+-        app:layout_constraintBottom_toTopOf="@+id/txtNameSearch"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent">
++        android:orientation="horizontal">
+ 
+-    </FrameLayout>
+-
+-    <Button
+-        android:id="@+id/btnLastSearches"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="Last Searches"
+-        app:layout_constraintBottom_toTopOf="@+id/txtNameSearch"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@+id/fragHolder" />
++        <AutoCompleteTextView
++            android:id="@+id/autoTxtNameSearch"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:hint="Search  City"
++            android:imeOptions="actionNext" />
+ 
+-    <EditText
+-        android:id="@+id/txtNameSearch"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:ems="10"
+-        android:hint="City Name"
+-        android:inputType="textPersonName"
+-        app:layout_constraintBottom_toTopOf="@+id/txtCountrySearch"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@+id/btnLastSearches" />
++        <Spinner
++            android:id="@+id/spUnits"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content" />
++
++    </LinearLayout>
+ 
+     <Button
+         android:id="@+id/btnSearch"
+-        android:layout_width="wrap_content"
++        android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+-        android:text="Search"
+-        app:layout_constraintBottom_toBottomOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@+id/spUnits" />
++        android:text="Search" />
+ 
+-    <Spinner
+-        android:id="@+id/spUnits"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        app:layout_constraintBottom_toTopOf="@+id/btnSearch"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@+id/txtCountrySearch" />
+-
+-    <EditText
+-        android:id="@+id/txtCountrySearch"
+-        android:layout_width="wrap_content"
++    <Button
++        android:id="@+id/btnLastSearches"
++        android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+-        android:ems="10"
+-        android:hint="Country"
+-        android:inputType="textPersonName"
+-        app:layout_constraintBottom_toTopOf="@+id/spUnits"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@+id/txtNameSearch" />
++        android:text="Last Searches" />
+ 
+-</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
++</LinearLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/groupproject/WorldCityList.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/groupproject/WorldCityList.java	(date 1619320892057)
++++ app/src/main/java/com/example/groupproject/WorldCityList.java	(date 1619320892057)
+@@ -0,0 +1,37 @@
++package com.example.groupproject;
++
++public class WorldCityList {
++
++    String name;
++    String country;
++
++    public WorldCityList() {
++    }
++
++    public WorldCityList(String name, String country) {
++        this.name = name;
++        this.country = country;
++    }
++
++    public String getName() {
++        return name;
++    }
++
++    public void setName(String name) {
++        this.name = name;
++    }
++
++    public String getCountry() {
++        return country;
++    }
++
++    public void setCountry(String country) {
++        this.country = country;
++    }
++
++    @Override
++    public String toString() {
++        return name + ',' + country;
++
++    }
++}

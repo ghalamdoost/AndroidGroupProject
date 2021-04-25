@@ -1,73 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <FrameLayout
         android:id="@+id/fragHolder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/txtNameSearch"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_width="411dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp">
 
     </FrameLayout>
 
-    <Button
-        android:id="@+id/btnLastSearches"
-        android:layout_width="wrap_content"
+    <AutoCompleteTextView
+        android:id="@+id/autoTxtNameSearch"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Last Searches"
-        app:layout_constraintBottom_toTopOf="@+id/txtNameSearch"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragHolder" />
-
-    <EditText
-        android:id="@+id/txtNameSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="City Name"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/txtCountrySearch"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLastSearches" />
-
-    <Button
-        android:id="@+id/btnSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Search"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spUnits" />
+        android:hint="@string/search_city"
+        android:imeOptions="actionNext" />
 
     <Spinner
         android:id="@+id/spUnits"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/btnSearch"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCountrySearch" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/txtCountrySearch"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/btnSearch"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Country"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/spUnits"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtNameSearch" />
+        android:text="@string/search" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/btnLastSearches"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/last_searches" />
+
+</LinearLayout>

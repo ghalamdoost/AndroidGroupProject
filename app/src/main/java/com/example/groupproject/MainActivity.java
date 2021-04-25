@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -16,6 +16,13 @@ import androidx.fragment.app.FragmentManager;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Type;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,9 +30,12 @@ public class MainActivity extends AppCompatActivity {
     Button btnSearch;
     private static final String[] units = {"metric", "imperial"};
     Button btnLastSearches;
-    EditText txtNameSearch;
-    EditText txtCountrySearch;
     Spinner spUnits;
+    AutoCompleteTextView autoTxtNameSearch;
+    Type listCityType;
+    List<WorldCityList> cityList;
+    String[] cities;
+    Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +52,29 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // API functionality
-        txtNameSearch = findViewById(R.id.txtNameSearch);
-        txtCountrySearch = findViewById(R.id.txtCountrySearch);
         btnSearch = findViewById(R.id.btnSearch);
         btnLastSearches = findViewById(R.id.btnLastSearches);
+
+//        if (bundle!= null){
+//            cities = savedInstanceState.getStringArray("cities");
+        if (cities == null) {
+            String jsonFileString = loadCities();
+            Gson gson = new Gson();
+            listCityType = new TypeToken<List<WorldCityList>>() {
+            }.getType();
+            cityList = gson.fromJson(jsonFileString, listCityType);
+            cities = new String[cityList.size()];
+            for (int i = 0; i < cityList.size(); i++) {
+                cities[i] = cityList.get(i).toString();
+                int s = 0;
+            }
+        }
+//        }
+
+
+        ArrayAdapter<String> autoAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, cities);
+        autoTxtNameSearch = (AutoCompleteTextView) findViewById(R.id.autoTxtNameSearch);
+        autoTxtNameSearch.setAdapter(autoAdapter);
 
         spUnits = findViewById(R.id.spUnits);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, units);
@@ -56,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ApiControl appC = new ApiControl();
-                appC.searchWeather(getApplicationContext(), spUnits.getSelectedItem().toString(), txtNameSearch.getText().toString(), txtCountrySearch.getText().toString());
+                String[] split = autoTxtNameSearch.getText().toString().split(",");
+                appC.searchWeather(getApplicationContext(), spUnits.getSelectedItem().toString(), split[0], split[1]);
                 setContentView(R.layout.activity_detail_page);
             }
         });
@@ -70,6 +100,32 @@ public class MainActivity extends AppCompatActivity {
         });
         //End API functionality
     }
+
+
+    public String loadCities() {
+        String jsonString;
+        try {
+            InputStream is = getAssets().open("cities.json");
+
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+
+            jsonString = new String(buffer, "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return jsonString;
+    }
+
+//    @Override
+//    protected void onSaveInstanceState(@NonNull Bundle outState) {
+//        bundle.putStringArray("cities", cities);
+//        super.onSaveInstanceState(outState);
+//    }
 
     @Override
     protected void onStart() {

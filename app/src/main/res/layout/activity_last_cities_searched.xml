@@ -94,4 +94,4 @@
             android:textAlignment="center" />
     </LinearLayout>
 
-</>
+</androidx.cardview.widget.CardView>
