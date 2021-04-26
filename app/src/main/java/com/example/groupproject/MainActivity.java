@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 ApiControl appC = new ApiControl();
                 String input = autoTxtNameSearch.getText().toString();
                 if (!input.isEmpty()) {
+
                     autoTxtNameSearch.setBackgroundColor(Color.WHITE);
                     String[] split = input.toString().split(",");
                     appC.searchWeather(getApplicationContext(), spUnits.getSelectedItem().toString(), split[0], split[1]);
