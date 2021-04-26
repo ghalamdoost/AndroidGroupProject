@@ -12,4 +12,5 @@
     <color name="Blue_Grotto">#1181C8</color>
     <color name="MyWhite">#F2F0FC</color>
     <color name="MyRed">#FF0000</color>
+    <color name="MyError">#F19191</color>
 </resources>

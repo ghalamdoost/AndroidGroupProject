@@ -1,6 +1,7 @@
 package com.example.groupproject;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -85,8 +86,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ApiControl appC = new ApiControl();
-                String[] split = autoTxtNameSearch.getText().toString().split(",");
-                appC.searchWeather(getApplicationContext(), spUnits.getSelectedItem().toString(), split[0], split[1]);
+                String input = autoTxtNameSearch.getText().toString();
+                if (!input.isEmpty()) {
+                    autoTxtNameSearch.setBackgroundColor(Color.WHITE);
+                    String[] split = input.toString().split(",");
+                    appC.searchWeather(getApplicationContext(), spUnits.getSelectedItem().toString(), split[0], split[1]);
+                } else {
+                    autoTxtNameSearch.setBackgroundColor(Color.rgb(246, 160, 160));
+                    Toast.makeText(getApplicationContext(), "Please select a City", Toast.LENGTH_LONG).show();
+                }
             }
         });
         btnLastSearches.setOnClickListener(new View.OnClickListener() {
@@ -150,6 +158,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        mAuth.signOut();
+        mAuth.signOut();
     }
 }
