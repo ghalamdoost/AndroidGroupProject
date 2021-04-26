@@ -32,8 +32,10 @@ public class ApiControl {
                 e.printStackTrace();
             }
         }, error -> {
-            Log.i("There is an Error on the API call: ", error.getMessage());
-            error.printStackTrace();
+            if (error != null) {
+                Log.i("There is an Error on the API call: ", error.getMessage());
+                error.printStackTrace();
+            }
         });
         queue.add(myRequest);
     }

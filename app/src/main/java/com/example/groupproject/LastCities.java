@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 public class LastCities extends AppCompatActivity {
 
@@ -16,7 +18,14 @@ public class LastCities extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        txtLastCities = findViewById(R.id.textView);
+        txtLastCities = findViewById(R.id.test);
+
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment frag = fm.findFragmentById(R.id.fragHolder2);
+        if (frag == null) {
+            frag = new SlideShowFragment();
+            fm.beginTransaction().add(R.id.fragHolder2, frag).commit();
+        }
 
         WeatherSearches[] wea = (WeatherSearches[]) getIntent().getSerializableExtra("ws");
 

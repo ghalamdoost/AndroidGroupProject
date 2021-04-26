@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
                 ApiControl appC = new ApiControl();
                 String[] split = autoTxtNameSearch.getText().toString().split(",");
                 appC.searchWeather(getApplicationContext(), spUnits.getSelectedItem().toString(), split[0], split[1]);
-                setContentView(R.layout.activity_detail_page);
             }
         });
         btnLastSearches.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ApiControl appC = new ApiControl();
                 appC.getLastSearches(getApplicationContext());
-                setContentView(R.layout.activity_last_cities);
             }
         });
         //End API functionality
