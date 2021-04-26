@@ -150,6 +150,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        mAuth.signOut();
+        mAuth.signOut();
     }
 }
