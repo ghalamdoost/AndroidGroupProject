@@ -17,10 +17,8 @@
     <TextView
         android:id="@+id/textView8"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginTop="20dp"
-        android:paddingLeft="20dp"
-        android:paddingTop="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="Last Searches"
         android:textAlignment="center"
         android:textSize="30sp"
@@ -30,14 +28,8 @@
         android:id="@+id/rView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="10dp">
 
     </androidx.recyclerview.widget.RecyclerView>
-
-    <TextView
-        android:id="@+id/test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
 
 </LinearLayout>

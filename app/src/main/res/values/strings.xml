@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GroupProject</string>
+    <string name="app_name">WeatherExpress</string>
     <string name="last_searches">Last Searches</string>
     <string name="search_city">Search City</string>
     <string name="search">Search</string>

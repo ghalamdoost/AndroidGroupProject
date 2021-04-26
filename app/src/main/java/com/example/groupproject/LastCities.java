@@ -1,15 +1,17 @@
 package com.example.groupproject;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class LastCities extends AppCompatActivity {
 
-    TextView txtLastCities;
+    private RecyclerView rView;
+    private RecyclerView.Adapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,8 +20,6 @@ public class LastCities extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        txtLastCities = findViewById(R.id.test);
-
         FragmentManager fm = getSupportFragmentManager();
         Fragment frag = fm.findFragmentById(R.id.fragHolder2);
         if (frag == null) {
@@ -27,15 +27,12 @@ public class LastCities extends AppCompatActivity {
             fm.beginTransaction().add(R.id.fragHolder2, frag).commit();
         }
 
-        WeatherSearches[] wea = (WeatherSearches[]) getIntent().getSerializableExtra("ws");
+        //Getting the object from the intent
+        rView = findViewById(R.id.rView);
+        rView.setLayoutManager(new LinearLayoutManager(this));
 
-        String res = "";
-        for (WeatherSearches w : wea) {
-            String result = w.name + " " + w.country + " " + w.units + "\n";
-            System.out.println(result);
-            res += result;
-            //THIS PART NEEDS TO BE IMPLEMENTED IN A RECYCLER VIEW
-        }
-        txtLastCities.setText(res);
+        WeatherSearches[] wea = (WeatherSearches[]) getIntent().getSerializableExtra("ws");
+        adapter = new WeatherSearchesAdapter(wea);
+        rView.setAdapter(adapter);
     }
 }

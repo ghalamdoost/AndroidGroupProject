@@ -1,36 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2F0FC"
+    android:background="#451181C8"
     android:orientation="vertical">
 
     <ImageView
         android:id="@+id/imgIcon"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:padding="10dp"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/txtTemp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/MyWhite"
         android:hint="&#176;"
         android:padding="10dp"
         android:textAlignment="center"
-        android:textSize="100sp" />
+        android:textSize="80sp" />
 
-    <TextView
-        android:id="@+id/txtCityName"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:hint="City"
-        android:paddingVertical="10dp"
+        android:background="@color/MyWhite">
+
+        <TextView
+            android:id="@+id/txtCityName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/MyWhite"
+            android:padding="15dp"
+            android:text="City"
+            android:textAlignment="viewEnd"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/txtCountryName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtCountryName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#FF7043"
+            android:padding="10dp"
+            android:text="Country"
+            android:textAlignment="viewStart"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txtCityName"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/txtDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="17dp"
+        android:text="Description"
         android:textAlignment="center"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/txtFeelsLike"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="17dp"
+        android:text="Feels Like"
+        android:textAlignment="center"
+        android:textSize="25sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,43 +85,25 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/txtVisibility"
+            android:id="@+id/txtMinTemp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="15dp"
-            android:text="TextView"
-            android:textAlignment="center"
-            android:textSize="30sp" />
+            android:text="Minimum Temp"
+            android:textAlignment="viewEnd"
+            android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/txtFeels"
+            android:id="@+id/txtMaxTemp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="15dp"
-            android:text="TextView"
-            android:textAlignment="center"
-            android:textSize="30sp" />
+            android:text="Maximum Temp"
+            android:textAlignment="viewStart"
+            android:textSize="18sp" />
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/minTemp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="17dp"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textSize="25sp" />
-
-    <TextView
-        android:id="@+id/maxTemp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="17dp"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textSize="25sp" />
 
 </LinearLayout>
